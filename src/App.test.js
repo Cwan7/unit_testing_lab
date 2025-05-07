@@ -1,8 +1,31 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent} from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+
+test('renders ToDoApp Component', () => {
+  const app = render(<App />);
+  const heading = app.getByRole('heading')
+  expect(heading).toHaveTextContent("Todo")
 });
+test('renders input and button', () => {
+  const app = render(<App />);
+  expect(app.getByPlaceholderText('Add A Todo')).toBeInTheDocument()
+  expect(app.getByRole('button', {name: 'Add'})).toBeInTheDocument();
+})
+test('allowes user input', () => {
+  const app = render(<App />);
+  const input = app.getByPlaceholderText('Add A Todo');
+
+  fireEvent.change(input, {target: {value: 'Dog Food'}});
+  expect(input).toHaveValue('Dog Food');
+})
+test('Add button adds input to list', () => {
+  const app = render(<App />);
+  const input = app.getByPlaceholderText('Add A Todo');
+  const button = app.getByRole('button', {name: 'Add'});
+
+  fireEvent.change(input, {target: {value: "Button Works"}});
+  fireEvent.click(button);
+
+  expect(app.getByText('Button Works')).toBeInTheDocument();
+})
