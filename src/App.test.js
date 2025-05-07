@@ -29,3 +29,22 @@ test('Add button adds input to list', () => {
 
   expect(app.getByText('Button Works')).toBeInTheDocument();
 })
+test('Edit button updates and displays updated value', () => {
+  const app = render(<App />);
+  const input = app.getByPlaceholderText('Add A Todo');
+  const addButton = app.getByRole('button', {name: 'Add'});
+
+  fireEvent.change(input, {target: {value: "Button Works"}});
+  fireEvent.click(addButton);
+
+  const editButton = app.getByRole('button', {name: 'Edit'});
+  fireEvent.click(editButton)
+
+  const editInput = app.getByPlaceholderText('Edit Todo');
+  fireEvent.change(editInput, {target: {value: 'Edit Button Works'}})
+
+  const updateButton = app.getByRole('button', {name: 'Update Todo'})
+  fireEvent.click(updateButton)
+
+  expect(app.getByText('Edit Button Works')).toBeInTheDocument();
+})

@@ -48,7 +48,7 @@ const ToDoApp = () => {
                         <div>
                             <input
                             type='text'
-                            placeholder={editingValue}
+                            placeholder='Edit Todo'
                             value={editingValue}
                             onChange={(event) => setEditingValue(event.target.value)}
                             />
